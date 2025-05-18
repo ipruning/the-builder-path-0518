@@ -5,10 +5,11 @@ requires-python = ">=3.13"
 [manifest]
 members = [
     "fastapi-mcp-server",
-    "fastapi-server",
-    "omc-agent",
     "time-mcp-server",
 ]
+
+[manifest.dependency-groups]
+dev = [{ name = "fast-agent-mcp", specifier = ">=0.2.21" }]
 
 [[package]]
 name = "a2a-types"
@@ -276,17 +277,6 @@ requires-dist = [
 ]
 
 [[package]]
-name = "fastapi-server"
-version = "0.0.1"
-source = { editable = "src/fastapi-server" }
-dependencies = [
-    { name = "fastapi" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "fastapi", specifier = ">=0.115.12" }]
-
-[[package]]
 name = "frozenlist"
 version = "1.6.0"
 source = { registry = "https://pypi.org/simple" }
@@ -514,17 +504,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/e8/4e/09301668d675d02ca8e8e1a3e6be046619e30403f5ada2ed5b080ae28d02/multidict-6.4.3-cp313-cp313t-win_amd64.whl", hash = "sha256:7146a8742ea71b5d7d955bffcef58a9e6e04efba704b52a460134fefd10a8208", size = 45946, upload-time = "2025-04-10T22:19:45.071Z" },
     { url = "https://files.pythonhosted.org/packages/96/10/7d526c8974f017f1e7ca584c71ee62a638e9334d8d33f27d7cdfc9ae79e4/multidict-6.4.3-py3-none-any.whl", hash = "sha256:59fe01ee8e2a1e8ceb3f6dbb216b09c8d9f4ef1c22c4fc825d045a147fa2ebc9", size = 10400, upload-time = "2025-04-10T22:20:16.445Z" },
 ]
-
-[[package]]
-name = "omc-agent"
-version = "0.0.1"
-source = { editable = "src/demo-agent" }
-dependencies = [
-    { name = "fast-agent-mcp" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "fast-agent-mcp", specifier = ">=0.2.21" }]
 
 [[package]]
 name = "openai"

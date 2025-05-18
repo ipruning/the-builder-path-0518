@@ -1,5 +1,5 @@
 [dependency-groups]
-dev = []
+dev = ["fast-agent-mcp>=0.2.21"]
 
 [tool.pyright]
 venv = ".venv"

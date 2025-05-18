@@ -4,11 +4,6 @@ from pydantic import BaseModel
 app = FastAPI()
 
 
-@app.get("/")
-async def read_root():
-    return "Hello World"
-
-
 @app.get("/name/{name}")
 async def read_name(name: str):
     return f"Hello, {name}!"

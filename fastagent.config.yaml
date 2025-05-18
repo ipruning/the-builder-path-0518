@@ -39,12 +39,7 @@ mcp:
             args: ["-y", "@modelcontextprotocol/server-filesystem", "."]
         time:
             command: "uvx"
-            args:
-                [
-                    "--from",
-                    "/Users/alex/dev/the-builder-path-new/src/time-mcp-server",
-                    "time-mcp-server",
-                ]
+            args: ["--from", "./src/time-mcp-server", "time-mcp-server"]
         item:
             command: "uvx"
             args: ["mcp-proxy", "http://localhost:8000/mcp"]

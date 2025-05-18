@@ -6,8 +6,8 @@ fast = FastAgent("Demo Agent")
 
 
 @fast.agent(
-    instruction="You are a helpful AI Agent",
-    servers=["fetch", "filesystem", "time", "item"],
+    instruction="sdafj",
+    servers=["time"],
 )
 async def main():
     async with fast.run() as agent:
