@@ -1,0 +1,103 @@
+---
+description: This rule is suitable for you to follow when assisting users in writing code.
+globs: 
+alwaysApply: true
+---
+## General Style
+
+### Each file should implement only one main function, avoiding mixing unrelated logic.
+
+### Write only meaningful comments in code.
+
+- Don't write verbose comments for obvious code (such as self-explanatory variables, simple operations).
+- Focus more commenting effort on function/class level DocStrings, and explaining "why it's done this way" rather than "what is being done".
+
+## Python Best Practices
+
+```python
+import sys
+from loguru import logger
+from objprint import op, objstr
+
+
+logger.remove()
+logger.add(
+    sys.stderr,
+    format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level}</level> | <level>{message}</level>",
+    level="INFO",
+    colorize=True,
+)
+
+class Player:
+    def __init__(self, name, position, inventory=None):
+        if inventory is None:
+            inventory = []
+        self.name = name
+        self.position = position
+        self.inventory = inventory
+
+    def move(self, dx, dy):
+        """
+        Moves the player by dx, dy.
+        Asserts new position must be within a hypothetical game boundary (0<=x<=100, 0<=y<=100).
+        """
+        new_x = self.position[0] + dx
+        new_y = self.position[1] + dy
+        assert 0 <= new_x <= 100, f"X out of bounds: {new_x}"
+        assert 0 <= new_y <= 100, f"Y out of bounds: {new_y}"
+        self.position = (new_x, new_y)
+
+def main():
+    """
+    Main entry point, demonstrating how to keep code minimal yet robust.
+    """
+    # Create a player
+    player = Player(name="Alice", position=(10, 10), inventory=["sword", "potion"])
+    # Debug printing the player
+    op(player, line_number=True, depth=2)  # Depth=2 to avoid printing every detail if nested
+
+    # Attempt a move
+    player.move(5, 5)
+
+    logger.info("Player moved successfully: {}", objstr(player))
+
+if __name__ == "__main__":
+    main()
+
+# Following TigerBeetle Python style, we assert against boundary violations for `new_x/new_y`.
+# Using `op()` for debug printing objects, while limiting `depth`.
+# Using `logger` for consistent log formatting.
+```
+
+## TigerBeetle Python Style
+
+### Use `assert` to explicitly check for conditions that "should never happen logically," and provide context in assertion messages:
+
+```python
+assert user_id is not None, "user_id should never be None here"
+```
+
+- This allows us to "fail gracefully" with external inputs: throwing readable exceptions or returning error messages, rather than failing silently.
+- When internal logic encounters impossible scenarios, use `assert` or `raise` to preserve the error state for easier debugging.
+
+### Each function should have at least 1-2 assertions or boundary checks to catch potential errors.
+
+- Avoid "swallowing exceptions" in places where you know exceptions might occur.
+
+### Functions should be short, responsible for just one thing, and avoid lengthy parameter lists.
+
+- Strive to use "pure function" principles, not depending on global state.
+- Define and validate variables close to where they're used, avoiding complexity from globally shared mutable state.
+
+### Comments should explain "why," not "how."
+
+- Avoid over-explaining code that is self-evident.
+- Emphasize the thinking behind decisions, such as why a particular data structure was chosen.
+
+### Prefer standard library solutions; third-party dependencies should be reviewed for reliability and necessity.
+
+- Use pathlib for path handling.
+
+### Add `typing` annotations to critical functions or external interfaces, and use pyright or mypy for type checking in CI.
+
+### Don't perform premature optimization, but be mindful of large-scale data or concurrency scenarios at the architectural level.
